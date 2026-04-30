@@ -1,4 +1,5 @@
 Multi-Cloud with AWS + DevOps + AI 
+Detailed notes https://github.com/mdarshadkhan1998/DevOps/blob/main/Notes/30.Apr.txt
 
 - **1) Context**
   - Course/module: Multi-Cloud + DevOps + AI series; Module 5: Docker (4 days planned for Docker, then Kubernetes).
