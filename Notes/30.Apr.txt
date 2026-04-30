@@ -1,8 +1,6 @@
-**Meeting:** [Batch-43 4th Link | Live | Multi-Cloud with AWS + DevOps + AI | 8AM IST](https://app.tactiq.io/#/transcripts/8xtDuAQYozmzfA980KmH)
+Multi-Cloud with AWS + DevOps + AI 
 
-**Detailed stepwise summary (topics covered + commands used):**
-
-- **1) Welcome & context**
+- **1) Context**
   - Course/module: Multi-Cloud + DevOps + AI series; Module 5: Docker (4 days planned for Docker, then Kubernetes).
   - Goal: Add Docker to resume, learn Dockerfile, build/push images, run containers, and prepare for Kubernetes.
 
