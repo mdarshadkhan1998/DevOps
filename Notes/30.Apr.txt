@@ -157,5 +157,3 @@
 10) Scenario: Interview question — describe the flow when you run docker run <image> in an environment where the image is not local.
    - Answer: Docker client sends command to Docker daemon; daemon checks local image store; if image absent, daemon requests image from configured registry (default Docker Hub). Daemon pulls image layers, stores them locally, then creates a container from that image and starts it. Daemon streams stdout/stderr back to the client.
 
-
-Want any of these expanded into a printable notes PDF, or should I extract just the commands for a cheat-sheet?
