@@ -1,0 +1,97 @@
+Docker Cheat-sheet — Essential Commands & Examples
+
+Setup / Install (Ubuntu)
+- sudo apt-get update
+- sudo apt-get install -y docker.io
+- sudo systemctl start docker
+- sudo systemctl enable docker
+- sudo usermod -aG docker $USER   # allow docker without sudo (re-login)
+
+Images & Basic Inspection
+- docker pull <image[:tag]>            # download image
+- docker images                       # list local images
+- docker image ls --format '{{.Repository}}:{{.Tag}}	{{.Size}}'  # list with sizes
+- docker inspect <image|container>    # detailed JSON info
+
+Run / Create Containers
+- docker run <image>                  # pulls (if needed), creates and starts
+- docker run -d --name myapp <image>  # run detached (background) with name
+- docker run -it <image> /bin/bash    # interactive shell in new container
+- docker run --rm <image> <cmd>       # remove container after exit
+
+Port Mapping & Networking
+- docker run -d -p <host_port>:<container_port> --name web nginx
+- Example: docker run -d -p 8080:80 --name mynginx nginx
+- Ensure cloud firewall/SG allows host_port and use http://<ext-ip>:<host_port>
+
+Volumes & Persistence
+- Bind mount (host dir -> container):
+  docker run -d -v /host/path:/container/path --name web -p 8080:80 nginx
+- Named volume:
+  docker volume create myvol
+  docker run -d -v myvol:/data --name app alpine sleep 1000
+- Use :ro to mount read-only: -v /host/path:/container/path:ro
+
+Container Lifecycle
+- docker ps                        # running containers
+- docker ps -a                     # all containers (including stopped)
+- docker start <id|name>
+- docker stop <id|name>
+- docker restart <id|name>
+- docker rm <id|name>              # remove stopped
+- docker rm -f <id|name>           # force remove running
+
+Logs & Exec
+- docker logs <id|name>            # view container stdout/stderr
+- docker logs -f <id|name>         # follow logs
+- docker exec -it <id|name> /bin/bash   # open shell in running container
+
+Interactive vs Detached
+- -it : interactive terminal (attach)
+- -d  : detached (background)
+- Use docker exec to enter containers started with -d
+
+One-off Commands
+- docker run --rm alpine date      # run command and auto-remove container
+- docker run -it ubuntu bash -c "apt-get update && apt-get install -y git"
+
+Monitoring & Metrics
+- docker stats                      # real-time CPU / MEM / IO per container
+- docker top <container>            # processes inside container
+- docker ps --format '{{.Names}}	{{.Status}}	{{.Ports}}'
+
+Bulk / Automation
+- Count running containers: docker ps -q | wc -l
+- Stop all: docker stop $(docker ps -q)
+- Remove all containers: docker rm $(docker ps -aq)
+- Run many containers (example):
+  for i in $(seq 1 30); do docker run -d --name demo_$i alpine sleep 1000; done
+
+Cleanup & Disk
+- docker system prune               # remove unused data interactively
+- docker system prune -a            # remove all unused (images, containers, networks)
+- docker rmi <image>                # remove image
+
+Useful Docker Compose (dev multi-service)
+- docker-compose up -d              # start services defined in docker-compose.yml
+- docker-compose down               # stop and remove containers, networks
+- docker-compose logs -f            # follow logs
+
+Jenkins (example)
+- docker run -d --name jenkins -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts
+- Unlock password: docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+- Persist home: -v /host/jenkins_home:/var/jenkins_home
+
+Troubleshooting Checklist (quick)
+- Is container running? docker ps
+- Is correct port mapping used? docker ps shows Ports
+- Is VM firewall/security group allowing host port? (cloud console)
+- Check container logs: docker logs <name>
+- Exec into container to inspect files: docker exec -it <name> /bin/bash
+
+Quick Tips
+- Prefer volumes for persistent data, not container FS.
+- Use --rm for short-lived/one-off commands to avoid clutter.
+- Use named containers for easier management (--name).
+- Use docker stats before scaling up containers to check resource limits.
+- Use docker-compose for development stacks; use Kubernetes for production orchestration.

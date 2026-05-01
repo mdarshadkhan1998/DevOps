@@ -1,0 +1,251 @@
+Summary — Batch-43 Day 2: Docker (Multi‑Cloud + DevOps + AI) — Stepwise, Topics, Commands and Notes
+
+1) Session goals and setup
+- Objective: Hands-on Docker fundamentals—install Docker, pull/run images, container lifecycle, volumes, port mapping, interactive mode, exec, stats, running multiple containers, basic troubleshooting, and containerized apps (NGINX, Jenkins, Ubuntu).
+- Environment: Any cloud VM (AWS/GCP/Azure) or local VM — Ubuntu used in demo.
+- Pre-steps recommended: apt-get update, create VM with >=30GB if needed.
+
+2) Installing Docker on Ubuntu (VM)
+- Key commands:
+  - sudo apt-get update
+  - sudo apt-get install -y docker.io
+  - sudo systemctl start docker
+  - sudo systemctl enable docker
+  - sudo usermod -aG docker $USER   (optional: run docker without sudo)
+- Note: If cloud image has small root disk, may need to resize and reboot.
+- Reference docs: Docker Engine install (https://docs.docker.com/engine/install/ubuntu/).
+
+3) Pulling images vs docker run
+- Concepts:
+  - docker pull <image> downloads an image from a registry (Docker Hub by default).
+  - docker run <image> downloads (if missing) and creates + starts a container.
+- Demo images used: nginx, mongo, redis, node, ubuntu, alpine, jenkins.
+- Key commands:
+  - docker pull nginx
+  - docker images              # list images
+  - docker run nginx           # run image (no ports or detach)
+- Architecture note: docker client -> docker daemon. Daemon checks local cache then registry.
+- Reference docs: About images and containers (https://docs.docker.com/engine/docker-overview/).
+
+4) Port mapping (host VM ↔ container)
+- Concept: Expose container service to VM/public by mapping host_port:container_port.
+- Key commands/examples:
+  - docker run -p 8080:80 nginx          # map VM port 8080 -> container port 80
+  - docker run -p 80:80 nginx            # host80->container80
+- Troubleshooting: If service not visible, ensure correct external IP, firewall/Cloud security group rules (allow port), and correct HTTP vs HTTPS URL.
+- Note: When mapping to public internet, enable cloud VM firewall rules (GCP firewall, AWS security groups).
+- Reference docs: Expose ports (https://docs.docker.com/config/containers/container-networking/).
+
+5) Detached mode, naming containers, logs
+- Concepts:
+  - Detached mode (-d) runs container in background
+  - --name sets human-friendly container name
+  - docker logs <container> shows container logs (access logs, error logs)
+- Commands:
+  - docker run -d --name mynginx -p 8080:80 nginx
+  - docker ps                   # show running containers
+  - docker ps -a                # show all containers
+  - docker logs mynginx
+- Notes: If container exits immediately, use docker ps -a to find stopped containers.
+
+6) Stopping, removing, and force removal
+- Commands:
+  - docker stop <container>     # stop gracefully
+  - docker start <container>    # start stopped container
+  - docker restart <container>
+  - docker rm <container>       # remove stopped container
+  - docker rm -f <container>    # force remove running container
+- Best practice: Stop before remove; or use -f if necessary.
+
+7) Persistence: Volumes and bind mounts
+- Concept: Containers are ephemeral; store persistent data using volumes or host bind mounts.
+- Commands/examples:
+  - mkdir -p /home/ubuntu/docker/nginx/html
+  - echo "<html>…</html>" > /home/ubuntu/docker/nginx/html/index.html
+  - docker run -d --name mynginx -p 8080:80 -v /home/ubuntu/docker/nginx/html:/usr/share/nginx/html:ro nginx
+    (bind host folder to container web root; :ro optional read-only)
+  - docker run -d --name mynginx -p 8080:80 -v mynginxvol:/usr/share/nginx/html nginx
+    (use named volume)
+- Notes: Use volumes for persistence and separation of data from container image.
+- Reference docs: Volumes (https://docs.docker.com/storage/volumes/).
+
+8) Interactive mode and exec
+- Concepts:
+  - -it (or -i -t) runs container interactively (attach a shell)
+  - docker exec -it <container> /bin/bash (or /bin/sh) to enter running container
+- Commands:
+  - docker run -it ubuntu /bin/bash    # run Ubuntu and enter shell
+  - exit                               # exit container (container may stop if foreground process ends)
+  - docker exec -it <container> /bin/bash  # open shell in running container
+- Note: To keep a container running when starting a shell, run in detached mode or ensure a long-running process.
+
+9) Running commands directly without interactive login
+- Concept: docker run can execute a command in container and exit with output.
+- Examples:
+  - docker run --rm alpine date        # run date in alpine, container removed (--rm)
+  - docker run --rm ubuntu ls /        # list root of freshly started ubuntu
+- Flags: --rm removes container after run to save resources.
+
+10) Container lifecycle and management commands recap
+- docker ps, docker ps -a
+- docker stats            # live CPU/memory/network I/O metrics for containers
+- docker images
+- docker rm, docker rmi
+- docker inspect <container/image>  # details and configuration
+- Useful: docker ps -q | wc -l   (count containers), docker ps -aq | wc -l (all)
+
+11) Running many containers (loop/automation, Compose, Kubernetes)
+- Approaches to run multiple containers:
+  - Shell loop (demo): for i in $(seq 1 30); do docker run -d alpine sleep 1000; done
+  - Docker Compose for multi-container definitions (recommended for services)
+  - Kubernetes for large-scale orchestration in production
+- Example loop command:
+  - for i in $(seq 1 30); do docker run -d --name demo_$i alpine sleep 1000; done
+- Notes: Monitor resource usage (docker stats) when spinning many containers.
+- Reference docs: Docker Compose (https://docs.docker.com/compose/), Kubernetes docs (https://kubernetes.io/docs/home/).
+
+12) docker stats (resource monitoring)
+- Command:
+  - docker stats               # shows CPU %, MEM usage, NET I/O, BLOCK I/O per container
+- Use case: Identify high resource consumers when many containers run.
+
+13) Image cleanup and size considerations
+- Avoid installing unnecessary packages inside images/containers in demos (keeps images small).
+- Commands:
+  - docker system prune -a    # remove unused objects (images, containers, networks)
+  - docker image ls           # list images and sizes
+
+14) Containerized Jenkins and unlocking Jenkins
+- Demo: Run Jenkins container and access via mapped port.
+- Commands (example):
+  - docker run -d --name jenkins -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts
+  - To unlock Jenkins: docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+- Note: If running inside container, files/commands exist inside container; use docker exec to run commands there.
+- Reference docs: Jenkins Docker image (https://hub.docker.com/r/jenkins/jenkins).
+
+15) NGINX roles and logs
+- NGINX functions: web server, reverse proxy, load balancer, caching, media streaming.
+- Container logs include access and error logs. Use docker logs or exec into container to view /var/log/nginx.
+- Example path inside container: /var/log/nginx/access.log
+
+16) Common interview-style architecture wording
+- Explain docker pull/run flow from architecture viewpoint: client -> daemon -> local cache -> registry -> download image -> create container -> start process.
+- Use terms: Docker daemon, registry, local cache, container runtime, persistent volume.
+
+17) Troubleshooting checklist (visibility issues)
+- Check: container is running (docker ps)
+- Check: correct port mapping (-p host:container)
+- Check: VM external IP and cloud firewall/security group allows host port
+- Check: using http://<external-ip>:<host-port> (avoid https unless configured)
+- Use docker logs and docker exec for inside-container inspection
+
+---
+30 Scenario-based Questions with Answers (based on covered topics)
+
+1) Q: You run docker run nginx but cannot access the web page from the VM external IP. What do you check?
+   A: Check docker ps (is container running), confirm docker run used -p host_port:80, ensure cloud VM firewall/security group allows host_port, use correct HTTP URL, check docker logs.
+
+2) Q: How to run a container in background named web1 mapping VM port 8080 to container 80?
+   A: docker run -d --name web1 -p 8080:80 nginx
+
+3) Q: You need persistent web content on host folder /home/ubuntu/site mapped to NGINX html. Command?
+   A: docker run -d --name web -p 8080:80 -v /home/ubuntu/site:/usr/share/nginx/html:ro nginx
+
+4) Q: How to remove a running container forcefully?
+   A: docker rm -f <container>  (or docker stop <container> && docker rm <container>)
+
+5) Q: You want to execute apt-get update inside a running ubuntu container without attaching interactively. How?
+   A: docker exec <container> apt-get update
+
+6) Q: How to start a shell inside a running container named myapp?
+   A: docker exec -it myapp /bin/bash   (or /bin/sh if bash not present)
+
+7) Q: You start an interactive ubuntu container with docker run -it ubuntu /bin/bash, exit; container shows as exited. How to restart it?
+   A: docker start <container_id_or_name>
+
+8) Q: How to run a one-off command date using alpine image and auto-remove container after run?
+   A: docker run --rm alpine date
+
+9) Q: How to see resource usage (CPU and memory) of running containers?
+   A: docker stats
+
+10) Q: You need to run 50 short-lived containers for testing—how to spawn them quickly?
+    A: Use shell loop: for i in $(seq 1 50); do docker run -d --name demo_$i alpine sleep 1000; done  (adjust sleep or command)
+
+11) Q: How to list all images and show their sizes?
+    A: docker images
+
+12) Q: How to count number of running containers from CLI?
+    A: docker ps -q | wc -l
+
+13) Q: How to remove unused images and containers to free space?
+    A: docker system prune -a   (use carefully, removes unused images/containers/networks)
+
+14) Q: Jenkins is running in container but you cannot find Jenkins config on VM filesystem. Why?
+    A: Jenkins runs inside container; its files live in container filesystem unless a volume/bind mount was used. Use docker exec to inspect or mount a host dir as volume.
+
+15) Q: You want container logs but container runs detached. How to get logs?
+    A: docker logs <container_name_or_id>
+
+16) Q: How to run a container and assign a specific name to refer easily later?
+    A: docker run --name myname <image>
+
+17) Q: You need to enter a running container but the container has no bash, only sh. What do you run?
+    A: docker exec -it <container> /bin/sh
+
+18) Q: How to run multiple interdependent services in dev (web + db) easily?
+    A: Use Docker Compose with a docker-compose.yml defining services and networks (recommended). Example: define nginx and mongo services and run docker-compose up -d.
+
+19) Q: What command shows stopped containers too?
+    A: docker ps -a
+
+20) Q: How to map host port 50000 and 8080 for Jenkins container?
+    A: docker run -d --name jenkins -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts
+
+21) Q: You need to inspect container runtime configuration (mounts, env, ports). Command?
+    A: docker inspect <container_or_image>
+
+22) Q: How to run a container and keep its filesystem cleaned up afterwards automatically?
+    A: Use --rm flag: docker run --rm alpine <command>
+
+23) Q: Image pull fails due to lack of internet inside corporate VM. How to proceed?
+    A: Use an internal registry or pre-pull images on a machine with access and push to internal registry; OR enable VM network access/HTTP proxy settings.
+
+24) Q: You want to detach from interactive container but leave it running. You started with docker run -it image /bin/bash. What to do?
+    A: In the running shell you can background the shell process (not preferred). Better approach: start container with -d and use docker exec -it to enter when needed.
+
+25) Q: How to view NGINX access logs inside container?
+    A: docker exec -it <nginx_container> tail -f /var/log/nginx/access.log (or view file with cat/less)
+
+26) Q: How to change a container’s name after creation?
+    A: You cannot rename a container easily; best to create new container with --name. (There is docker rename <old> <new> to rename a container.)
+
+27) Q: How to run a container and limit memory usage to 256MB?
+    A: docker run -m 256m --memory-swap 256m <image>  (also consider --cpus flag)
+
+28) Q: How to persist Jenkins home on host to survive container removal?
+    A: docker run -d --name jenkins -p 8080:8080 -v /path/on/host/jenkins_home:/var/jenkins_home jenkins/jenkins:lts
+
+29) Q: How to quickly check whether an image is present locally before a pull?
+    A: docker images | grep <imagename>  OR docker image inspect <image>:<tag> (inspect fails if not present)
+
+30) Q: You started many containers but need to stop them all at once. How?
+    A: docker stop $(docker ps -q)   # stop all running containers; to remove all: docker rm $(docker ps -aq)
+
+---
+Commands recap (collected):
+- System and Docker install: sudo apt-get update; sudo apt-get install -y docker.io; sudo systemctl start docker; sudo systemctl enable docker; sudo usermod -aG docker $USER
+- Image and container management: docker pull <image>; docker images; docker run [options] <image>; docker ps; docker ps -a; docker ps -q; docker logs <container>; docker stop/start/restart <container>; docker rm [-f] <container>; docker rmi <image>
+- Modes and flags: -d (detached), -it (interactive), --name <name>, -p host:container (port mapping), -v host_path:container_path (volume/bind), --rm (auto remove)
+- Exec/interactive: docker exec -it <container> /bin/bash; docker run -it ubuntu /bin/bash
+- Quick commands: docker stats; docker system prune -a; docker inspect <container>
+- Automation examples: for i in $(seq 1 30); do docker run -d --name demo_$i alpine sleep 1000; done
+
+References (official docs recommended):
+- Docker Engine install (Ubuntu): https://docs.docker.com/engine/install/ubuntu/
+- Docker overview & CLI: https://docs.docker.com/engine/reference/commandline/docker/
+- Volumes: https://docs.docker.com/storage/volumes/
+- Networking/port mapping: https://docs.docker.com/config/containers/container-networking/
+- Docker Compose: https://docs.docker.com/compose/
+- Jenkins image usage: https://hub.docker.com/r/jenkins/jenkins
+- NGINX image docs: https://hub.docker.com/_/nginx
