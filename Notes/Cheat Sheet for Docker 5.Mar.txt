@@ -1,0 +1,132 @@
+**Docker Cheat Sheet (Docker Advanced Concepts + Image Optimization + Registry Push)**
+
+**1) Core concepts**
+- **Image**: Read-only template used to create containers
+- **Container**: Running instance of an image
+- **Registry**: Place to store images (Docker Hub, ECR, GCR/Artifact Registry, ACR)
+- **Dockerfile**: Instructions to build an image
+
+**2) Common image commands**
+```bash
+docker images
+docker image ls
+docker pull <image>
+docker push <image>
+docker rmi <image>
+```
+
+**3) Build images**
+```bash
+docker build -t <name>:<tag> .
+docker build -f Dockerfile.dev -t <name>:<tag> .
+```
+
+**4) Run containers**
+```bash
+docker run <image>
+docker run -d <image>
+docker run -it <image> /bin/bash
+docker run -p 8000:8000 <image>
+docker run --name <container-name> <image>
+```
+
+**5) Container management**
+```bash
+docker ps
+docker ps -a
+docker start <container>
+docker stop <container>
+docker restart <container>
+docker rm <container>
+```
+
+**6) Logs and debugging**
+```bash
+docker logs <container>
+docker logs -f <container>
+docker logs --tail 50 <container>
+docker inspect <container>
+docker exec -it <container> /bin/bash
+```
+
+**7) Save and load images**
+```bash
+docker save -o image.tar <image>
+docker load -i image.tar
+```
+
+**8) Dockerfile basics**
+```dockerfile
+FROM ubuntu:latest
+WORKDIR /app
+COPY . /app
+RUN apt-get update && apt-get install -y python3 python3-pip
+RUN pip3 install -r requirements.txt
+EXPOSE 8000
+CMD ["python3", "app.py"]
+```
+
+**9) Multi-stage Dockerfile**
+```dockerfile
+FROM node:18 AS builder
+WORKDIR /app
+COPY . .
+RUN npm install && npm run build
+
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+CMD ["node", "dist/index.js"]
+```
+
+**10) COPY vs ADD**
+- **COPY**: Best for copying local files
+- **ADD**: Can also fetch URLs and auto-extract tar files
+- Prefer **COPY** unless ADD is specifically needed
+
+**11) Slim / minimal images**
+- Examples:
+  - `python:3.11-slim`
+  - `node:18-alpine`
+- Benefits:
+  - smaller size
+  - faster build/pull
+  - better security
+
+**12) Registry push flow**
+
+**GCP Artifact Registry**
+```bash
+gcloud auth login
+gcloud config set project <project-id>
+gcloud auth configure-docker <region>-docker.pkg.dev
+docker tag <image> <region>-docker.pkg.dev/<project>/<repo>/<image>:<tag>
+docker push <region>-docker.pkg.dev/<project>/<repo>/<image>:<tag>
+```
+
+**AWS ECR**
+```bash
+aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws-account-id>.dkr.ecr.<region>.amazonaws.com
+docker tag <image> <aws-account-id>.dkr.ecr.<region>.amazonaws.com/<repo>:<tag>
+docker push <aws-account-id>.dkr.ecr.<region>.amazonaws.com/<repo>:<tag>
+```
+
+**Azure ACR**
+```bash
+az acr login --name <registry>
+docker tag <image> <registry>.azurecr.io/<repo>:<tag>
+docker push <registry>.azurecr.io/<repo>:<tag>
+```
+
+**13) Useful troubleshooting tips**
+- Use `docker logs` first if a container fails
+- Use `docker inspect` to check config, ports, env, mounts
+- Use `docker exec` to enter and debug inside the container
+- If build is slow, check for unnecessary layers and large base images
+
+**14) Interview-ready points**
+- Use **slim/alpine** for smaller runtime images
+- Use **multi-stage builds** to separate build and runtime
+- Use **COPY** instead of **ADD** by default
+- Use **port mapping** for web apps
+- Use **registries** for image storage and deployment
