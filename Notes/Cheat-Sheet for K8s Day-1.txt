@@ -98,3 +98,101 @@
 - Use `apply` for ongoing changes.
 - Keep clusters small in lab environments to reduce cost.
 - Use proper interview keywords and speak confidently.
+
+
+
+
+**Kubernetes Day 1 — Q&A Flashcards**
+
+**1. What is Kubernetes?**
+- An open-source container orchestration platform used to deploy, scale, and manage containerized applications.
+
+**2. What is a Node?**
+- A VM or machine in the Kubernetes cluster that runs workloads.
+
+**3. What is a Container?**
+- A lightweight, runnable instance of an application with its dependencies.
+
+**4. What is a Cluster?**
+- A group of nodes managed together by Kubernetes.
+
+**5. What is kubelet?**
+- An agent running on each worker node that helps manage workloads and reports status.
+
+**6. What is kubectl?**
+- The CLI tool used to interact with Kubernetes clusters.
+
+**7. What is a Namespace?**
+- A logical boundary used to isolate resources within a cluster.
+
+**8. Why use YAML in Kubernetes?**
+- To define resources declaratively in a readable, version-controlled format.
+
+**9. What are common YAML fields?**
+- `apiVersion`, `kind`, `metadata`.
+
+**10. create vs apply?**
+- `create` is typically for first-time creation; `apply` is best for updates.
+
+**11. What is self-healing?**
+- Kubernetes automatically restarts or recreates failed workloads.
+
+**12. What is rollback?**
+- Returning to a previous stable deployment version.
+
+**13. What is autoscaling?**
+- Automatically adjusting the number of pods based on demand.
+
+**14. What is HPA?**
+- Horizontal Pod Autoscaler; scales the number of pods.
+
+**15. What is load balancing?**
+- Distributing traffic across pods or nodes to avoid overload.
+
+**16. Who maintains Kubernetes now?**
+- CNCF (Cloud Native Computing Foundation).
+
+**17. Which language is Kubernetes written in?**
+- Mostly Go.
+
+**18. What is the master/control plane?**
+- The part that manages the cluster and makes scheduling decisions.
+
+**19. What is the worker node’s job?**
+- To run the actual application workloads.
+
+**20. Why use namespaces in one cluster?**
+- To separate dev, QA, staging, and production environments logically.
+
+**Quick Revision Sheet**
+
+**Must-know commands**
+- `kubectl get nodes`
+- `kubectl get ns`
+- `kubectl create namespace <name>`
+- `kubectl apply -f <file>.yml`
+- `kubectl create -f <file>.yml`
+- `kubectl config view`
+- `kubectl config get-contexts`
+- `kubectl cluster-info`
+- `gcloud container clusters get-credentials <cluster> --region <region> --project <project>`
+
+**One-line answers**
+- Node = machine/VM
+- Container = running app
+- Cluster = group of nodes
+- Namespace = logical isolation
+- kubectl = Kubernetes CLI
+- kubelet = node agent
+
+**Interview keywords to use**
+- Declarative
+- Orchestration
+- Self-healing
+- Scalability
+- Load balancing
+- Isolation
+- Control plane
+- Worker node
+- Manifest
+- Automation
