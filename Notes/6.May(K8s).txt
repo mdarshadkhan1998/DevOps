@@ -1,0 +1,380 @@
+**Detailed Session Summary — Kubernetes Day 1**
+
+**1) DevOps/Kubernetes pipeline recap**
+
+- The session first revisited the CI/CD flow:
+  - Developer writes code
+  - Pushes code to GitHub
+  - CI runs unit tests/compile
+  - Artifact gets generated
+  - Artifact is copied into Docker image build context
+  - Docker image is built
+  - Image is pushed to a registry / artifact store
+- This was linked to the next phase: deploying and managing applications through Kubernetes.
+
+**2) Why Kubernetes was introduced**
+
+- Kubernetes is used after the image-building phase to manage application deployment, scaling, and automation.
+- The trainer emphasized two key roles:
+  - **Kubernetes Admin**: creates and manages clusters
+  - **Kubernetes Developer**: deploys applications/services into the cluster
+- Goal: once the cluster exists, applications run as containers and can be automated.
+
+**3) VS Code and YAML file preparation**
+
+- Students were asked to install/open **Visual Studio Code**.
+- A blank YAML file was created to start writing Kubernetes manifests.
+- The trainer explained that Kubernetes resources are commonly defined in YAML templates.
+- Example filenames used during the session:
+  - `Disha.yml`
+  - `Mohit.yml`
+  - `yasin.yml`
+- The point was: file name can be anything, but YAML format is required.
+
+**4) Kubernetes cluster creation in GCP**
+
+- The session moved to **Google Cloud Platform (GCP)** and **Google Kubernetes Engine (GKE)**.
+- Students were guided to:
+  - Select/create a GCP project
+  - Ensure billing is enabled
+  - Open Kubernetes Engine
+  - Enable the Kubernetes Engine API if prompted
+  - Create a cluster
+- The trainer used **Standard cluster** instead of Autopilot.
+- Important settings discussed:
+  - Cluster name: any meaningful name like `first-cluster`
+  - Location/region must be selected properly
+  - Node pool settings
+  - Number of nodes
+  - Machine size
+  - Disk size
+  - OS image / container-optimized OS
+
+**5) GKE cluster configuration choices discussed**
+
+- **Autopilot** vs **Standard**:
+  - Autopilot = more automated
+  - Standard = gives more manual control
+- They chose **Standard** for learning.
+- Node pool settings were modified:
+  - Number of nodes was changed from 3 to 1 for learning/cost control
+  - Disk size was reduced from 100 GB to 30 GB
+  - CPU/RAM sizing was also discussed
+- The trainer explained that a 3-node cluster may become expensive, and one node per zone is often enough for the demo.
+
+**6) What is a Node?**
+
+- A **Node** is a VM in Kubernetes that runs workloads.
+- More precisely in the session:
+  - A node is a virtual machine with required software installed
+  - It can be considered a worker machine in the cluster
+- The trainer repeatedly compared nodes to “minions” that work under the master/control plane.
+
+**7) What is a Container?**
+
+- A **container** is a lightweight, runnable instance of an application.
+- It contains the app and its dependencies.
+- It is not the same as a node.
+- Node = machine/VM
+- Container = running application
+
+**8) What is Kubernetes?**
+
+- Kubernetes is an **open-source container orchestration system**.
+- It helps with:
+  - Application deployment
+  - Scaling
+  - Managing containerized applications
+  - Self-healing
+  - Rolling updates/rollbacks
+  - Load balancing
+- It was described as:
+  - Created by Google
+  - Written mostly in **Go**
+  - Maintained by **CNCF**
+- The trainer also mentioned that Kubernetes is available across cloud providers:
+  - AWS
+  - Azure
+  - GCP
+- The underlying concepts remain the same across clouds.
+
+**9) Cluster concept**
+
+- A **cluster** contains multiple nodes.
+- In real-world terms, a cluster generally has:
+  - At least 1 master/control-plane
+  - 2–3 worker nodes for practical setups
+- The master controls and schedules, while workers execute workloads.
+
+**10) Kubernetes architecture basics**
+
+- The architecture was explained at a high level:
+  - **Control Plane / Master Node**
+    - Manages cluster state
+    - Receives requests
+    - Decides where workloads should run
+  - **Worker Nodes**
+    - Run the pods/container workloads
+- The trainer said the user sends commands using `kubectl`, which communicates with the API server in the control plane.
+
+**11) Kubelet explanation**
+
+- **Kubelet** was introduced as an agent running on each worker node.
+- Responsibilities:
+  - Communicates node status back to the control plane
+  - Helps ensure the desired workload is running
+- It runs on worker nodes, not on the master in the basic explanation.
+
+**12) Kubernetes features covered**
+
+The session covered these major features:
+
+- **Self-healing**
+  - If a pod/container fails, Kubernetes tries to restore it automatically
+- **Automatic rollback**
+  - If a new deployment version has issues, Kubernetes can roll back
+- **Auto-scaling**
+  - Pods can increase/decrease based on traffic or load
+- **Load balancing**
+  - Traffic can be distributed across nodes/pods
+- **Monitoring**
+- **Scheduling**
+- **Batch execution**
+
+**13) Autoscaling: HPA and VPA**
+
+- Autoscaling was discussed in the context of traffic growth.
+- The trainer mentioned:
+  - **HPA** = Horizontal Pod Autoscaler
+  - **VPA** = Vertical Pod Autoscaler
+- HPA increases/decreases the number of pods based on demand.
+- The trainer stressed speaking confidently in interviews using proper keywords.
+
+**14) Load balancing**
+
+- Load balancing was explained as distributing traffic across nodes/pods.
+- A round-robin style distribution was mentioned.
+- Goal: avoid overloading a single node/pod.
+
+**15) Namespace concept**
+
+- **Namespace** was explained as a way to isolate resources in a cluster.
+- Use cases:
+  - Dev environment
+  - QA environment
+  - Staging environment
+  - Production environment
+- Benefits:
+  - Isolation
+  - Better organization
+  - Cost-effective sharing of a cluster
+- A namespace can be created via command or YAML.
+
+**16) YAML manifest approach vs command-line approach**
+
+- The trainer compared two ways of creating resources:
+  - **Command-line** creation
+  - **YAML manifest** creation
+- He said YAML is better for real-world use because:
+  - Easy to maintain
+  - Can be stored in GitHub
+  - Reusable and version-controlled
+- Command-line is okay for quick tests.
+
+**17) Kubernetes manifest structure**
+
+- A YAML manifest was explained with the following parts:
+  - `apiVersion`
+  - `kind`
+  - `metadata`
+- `apiVersion` tells which version of the Kubernetes API is being used.
+- `kind` tells which object is being created.
+- `metadata` holds object information such as name.
+- The example in class was about creating a **Namespace**.
+
+**18) Commands demonstrated and discussed**
+
+Below are the main commands mentioned in the session.
+
+**Cluster connection / setup**
+
+- `gcloud container clusters get-credentials <cluster-name> --region <region> --project <project-id>`
+  - Used to fetch cluster credentials and configure local access
+- The exact command was shown by GKE in the console and then run in Cloud Shell.
+
+**Kubernetes config inspection**
+
+- `kubectl config view`
+  - Displays kubeconfig details
+- `kubectl config get-contexts`
+  - Lists available Kubernetes contexts
+- `kubectl cluster-info`
+  - Shows cluster control plane and service-related info
+
+**Namespace commands**
+
+- `kubectl create namespace <namespace-name>`
+  - Creates a namespace
+- `kubectl get ns`
+  - Lists namespaces
+- `kubectl apply -f <file-name>.yml`
+  - Applies YAML manifest to the cluster
+- `kubectl create -f <file-name>.yml`
+  - Creates resource from YAML, typically used first time
+
+**Node inspection**
+
+- `kubectl get nodes`
+  - Lists all worker nodes in the cluster
+
+**Filesystem / file checks**
+
+- `ls`
+  - Used in Cloud Shell / VM to check files, including kubeconfig-related files
+
+**19) `create` vs `apply`**
+
+- The trainer gave a practical difference:
+  - `create` is typically used the first time
+  - `apply` is preferred for updates / ongoing management
+- In interview terms:
+  - `create` = initial creation
+  - `apply` = declarative changes / idempotent updates
+- The trainer also noted that `apply` is the more common best practice in YAML-driven workflows.
+
+**20) Checking cluster details**
+
+- `kubectl cluster-info` and `kubectl config view` were used to understand:
+  - API server information
+  - Cluster connection settings
+  - Context details
+- The session showed that the cluster credentials and config are stored in the kubeconfig file.
+
+**21) Cost and quota issues**
+
+- Some students saw errors such as:
+  - Insufficient quota
+  - Service not available in selected location
+- Fixes discussed:
+  - Choose another region
+  - Reduce node count
+  - Reduce disk size
+  - Ensure billing is enabled
+- It was also mentioned that GCP may charge, and students should be careful with quota and billing.
+
+**22) Important interview-style definitions covered**
+
+- **Node**: VM with required software, running workloads
+- **Container**: running application instance
+- **Kubernetes**: open-source container orchestration system
+- **Cluster**: group of nodes managed together
+- **Kubelet**: node agent
+- **Namespace**: logical isolation boundary
+- **kubectl**: command-line tool to interact with Kubernetes
+
+**23) Session outcome**
+
+- Students successfully:
+  - Understood basic Kubernetes concepts
+  - Created or attempted to create clusters
+  - Connected to clusters
+  - Learned namespace creation
+  - Saw YAML-based deployment workflow
+  - Learned key Kubernetes keywords for interviews
+
+**Commands recap**
+
+- `gcloud container clusters get-credentials <cluster-name> --region <region> --project <project-id>`
+- `kubectl config view`
+- `kubectl config get-contexts`
+- `kubectl cluster-info`
+- `kubectl create namespace <namespace-name>`
+- `kubectl get ns`
+- `kubectl apply -f <file-name>.yml`
+- `kubectl create -f <file-name>.yml`
+- `kubectl get nodes`
+- `ls`
+
+---
+
+**20 Scenario-Based Questions with Answers**
+
+**1) Scenario:** You need to isolate Dev, QA, and Prod workloads in the same cluster. What should you use?
+
+- **Answer:** Use **Namespaces**. They provide logical isolation within a single Kubernetes cluster.
+
+**2) Scenario:** You want to create a new namespace from a YAML file for the first time. Which command is best?
+
+- **Answer:** `kubectl create -f <file-name>.yml`
+
+**3) Scenario:** You edited an existing YAML manifest and want to update the resource in the cluster. Which command should you use?
+
+- **Answer:** `kubectl apply -f <file-name>.yml`
+
+**4) Scenario:** Your pod crashed and Kubernetes restarted it automatically. Which Kubernetes feature is this?
+
+- **Answer:** **Self-healing**
+
+**5) Scenario:** A newer deployment version is causing issues, and Kubernetes reverts to the previous version. Which feature is this?
+
+- **Answer:** **Rollback** / **Automated rollback**
+
+**6) Scenario:** Traffic suddenly increases, and more pods are created automatically. What feature is used?
+
+- **Answer:** **Horizontal Pod Autoscaling (HPA)**
+
+**7) Scenario:** You want to check which worker nodes are available in your cluster. What command will you run?
+
+- **Answer:** `kubectl get nodes`
+
+**8) Scenario:** You want to see the cluster connection details and current Kubernetes config. What command should you use?
+
+- **Answer:** `kubectl config view`
+
+**9) Scenario:** You want to list all available kube contexts on your machine. What command should you run?
+
+- **Answer:** `kubectl config get-contexts`
+
+**10) Scenario:** You just created a GKE cluster and need to connect your local environment or Cloud Shell to it. What is the usual action?
+
+- **Answer:** Run the `gcloud container clusters get-credentials ...` command to fetch credentials.
+
+**11) Scenario:** You need to explain what a node is in an interview.
+
+- **Answer:** A node is a VM or machine in the Kubernetes cluster that runs workloads and has required software installed.
+
+**12) Scenario:** You need to explain the difference between a node and a container.
+
+- **Answer:** A node is the machine/VM; a container is the running application process inside the cluster.
+
+**13) Scenario:** You want to create a cluster for learning with less cost. Which configuration choice helps?
+
+- **Answer:** Reduce node count, reduce disk size, and choose a smaller machine type.
+
+**14) Scenario:** A team wants to manage Kubernetes resources as code and store them in GitHub. What format should they use?
+
+- **Answer:** **YAML manifests**
+
+**15) Scenario:** You need to define what resource type you are creating in a manifest, such as Namespace or Pod. Which YAML field does that?
+
+- **Answer:** `kind`
+
+**16) Scenario:** You want to specify which API version a resource uses in YAML. Which field is used?
+
+- **Answer:** `apiVersion`
+
+**17) Scenario:** You want to give a Kubernetes object its name and other identifying info. Which YAML section is used?
+
+- **Answer:** `metadata`
+
+**18) Scenario:** Your GKE cluster creation fails with an insufficient quota or location issue. What can you try?
+
+- **Answer:** Change region, reduce node size/count, and confirm billing/quota.
+
+**19) Scenario:** You are asked what `kubectl` is.
+
+- **Answer:** It is the command-line utility used to interact with Kubernetes clusters.
+
+**20) Scenario:** You want to describe Kubernetes in one line.
+
+- **Answer:** Kubernetes is an open-source container orchestration system used to deploy, scale, and manage containerized applications.

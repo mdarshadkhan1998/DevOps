@@ -1,0 +1,100 @@
+**Kubernetes Day 1 — Interview Cheat Sheet**
+
+**1) What is Kubernetes?**
+- An open-source container orchestration platform.
+- Used to deploy, scale, and manage containerized applications.
+- Created by Google, now maintained by CNCF.
+- Mostly written in Go.
+
+**2) What is a Node?**
+- A node is a VM/machine in a Kubernetes cluster.
+- It runs workloads and has required software installed.
+- In simple terms, it is the worker machine.
+
+**3) What is a Container?**
+- A container is a lightweight, runnable instance of an application.
+- It includes the app and its dependencies.
+- Node and container are not the same.
+
+**4) What is a Cluster?**
+- A cluster is a group of nodes managed together.
+- It usually has a control plane/master and worker nodes.
+
+**5) What is kubelet?**
+- An agent that runs on each worker node.
+- It communicates node status and helps manage workloads.
+
+**6) What is kubectl?**
+- The CLI tool used to communicate with Kubernetes.
+- It sends commands to the cluster.
+
+**7) What is a Namespace?**
+- A logical boundary inside a cluster.
+- Used to isolate dev, QA, staging, and prod resources.
+
+**8) YAML in Kubernetes**
+- Kubernetes resources are usually defined in YAML manifests.
+- Common fields:
+  - `apiVersion`
+  - `kind`
+  - `metadata`
+
+**9) create vs apply**
+- `create`: usually first-time resource creation.
+- `apply`: best for updates and declarative management.
+
+**10) Core Kubernetes features**
+- Self-healing
+- Auto-scaling
+- Load balancing
+- Rollback
+- Scheduling
+- Monitoring
+
+**11) Autoscaling**
+- **HPA**: increases/decreases pods based on load.
+- **VPA**: adjusts resource limits/requests vertically.
+
+**12) Load balancing**
+- Distributes traffic across pods/nodes.
+- Helps avoid overloading a single target.
+
+**13) Commands to remember**
+- `kubectl get nodes`
+- `kubectl get ns`
+- `kubectl create namespace <name>`
+- `kubectl apply -f <file>.yml`
+- `kubectl create -f <file>.yml`
+- `kubectl config view`
+- `kubectl config get-contexts`
+- `kubectl cluster-info`
+- `gcloud container clusters get-credentials <cluster> --region <region> --project <project>`
+
+**14) GKE setup flow**
+- Create/select GCP project
+- Enable billing
+- Enable Kubernetes Engine API
+- Create cluster
+- Choose Standard or Autopilot
+- Configure node pool, region, machine type, disk size
+- Connect using credentials command
+
+**15) Common interview one-liners**
+- Node = machine/VM in the cluster.
+- Container = running application.
+- Cluster = group of nodes.
+- Namespace = logical isolation.
+- kubectl = Kubernetes CLI.
+- kubelet = node agent.
+
+**16) Common errors discussed**
+- Insufficient quota
+- Service unavailable in selected region
+- Billing not enabled
+- Wrong region/location
+
+**17) Best practices mentioned**
+- Use YAML for real deployments.
+- Use `apply` for ongoing changes.
+- Keep clusters small in lab environments to reduce cost.
+- Use proper interview keywords and speak confidently.
