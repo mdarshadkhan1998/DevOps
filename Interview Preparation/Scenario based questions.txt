@@ -1,0 +1,220 @@
+**Scenario-based interview questions and short answers**
+
+1. **A Jenkins build fails after a code push. What do you check first?**  
+   Check the console output, build logs, and recent code changes.
+
+2. **A developer says the app deploys successfully but is not reachable. What do you verify?**  
+   Check service status, port mapping, security groups, ingress, and application logs.
+
+3. **An EC2 instance is running slow due to high CPU. What is your first action?**  
+   Check top processes, CloudWatch metrics, and application logs.
+
+4. **CPU alarms are triggering too frequently. What might be wrong?**  
+   The threshold or evaluation period may be too sensitive.
+
+5. **An alarm is configured but no email is received. What do you check?**  
+   SNS topic, subscription status, email confirmation, and alarm action.
+
+6. **An EC2 instance cannot access S3 even with an IAM role attached. What do you verify?**  
+   Role attachment, IAM policy permissions, and S3 bucket policy.
+
+7. **A developer cannot upload objects to S3. What permissions may be missing?**  
+   `s3:PutObject` and possibly `s3:ListBucket`.
+
+8. **A Kubernetes pod keeps restarting. What do you inspect?**  
+   Pod logs, events, resource limits, and readiness/liveness probes.
+
+9. **Two microservices in Kubernetes cannot communicate. What do you check?**  
+   Service names, selectors, labels, ports, and network policies.
+
+10. **A Docker image is too large. How do you reduce it?**  
+    Use multi-stage builds and remove unnecessary packages.
+
+11. **A container exits immediately after starting. What do you check?**  
+    The container logs and the main process command.
+
+12. **A Jenkins pipeline works on one server but not another. What is likely the issue?**  
+    Environment difference, missing dependencies, or configuration mismatch.
+
+13. **A Linux disk becomes full in production. What do you do first?**  
+    Check `df -h`, find large logs or files, and clean safely.
+
+14. **A service like Nginx is down on a Linux server. What command do you use?**  
+    `systemctl status nginx`
+
+15. **A server is consuming high memory after deployment. What is your response?**  
+    Check top consumers, logs, and whether the release introduced a memory leak.
+
+16. **A build works locally but fails in Jenkins. Why?**  
+    Missing dependencies, wrong environment variables, or build agent issues.
+
+17. **A developer says the deployment is stuck in pipeline stage. What do you inspect?**  
+    Pipeline logs, stage output, and credentials/configuration.
+
+18. **Your Kubernetes service is running but not exposing traffic. What might be wrong?**  
+    Service type, selector mismatch, or port configuration.
+
+19. **A Docker container cannot connect to another container. What do you verify?**  
+    Network, service name, ports, and Docker/Kubernetes networking setup.
+
+20. **An application shows 500 errors after deployment. What do you check first?**  
+    Application logs, recent changes, and backend dependencies.
+
+21. **A Jenkins job should run only on a specific agent. How do you handle it?**  
+    Use node labels and restrict job execution to that agent.
+
+22. **A team member accidentally changes a Jenkins job. How do you prevent it?**  
+    Use role-based access control and give read-only permissions.
+
+23. **A CloudWatch alarm keeps firing even when the system is fine. What do you do?**  
+    Tune the threshold, period, and comparison settings.
+
+24. **A database query is slow after adding a new report. What do you check?**  
+    Query plan, indexes, joins, and selected columns.
+
+25. **A SQL query uses `SELECT *` on a large table. Why is that bad?**  
+    It fetches unnecessary data and slows performance.
+
+26. **A production issue affects all users globally. What should your response show?**  
+    Ownership, urgency, communication, and a clear recovery plan.
+
+27. **A DR test is needed after a major outage. What is the goal?**  
+    To verify recovery time and restore services successfully.
+
+28. **An EC2 instance needs to be connected securely via SSH. What do you use?**  
+    The key pair and the private key file.
+
+29. **A service deployment increases response time sharply. What could be the cause?**  
+    Resource-heavy code, inefficient loops, or poor configuration.
+
+30. **An interviewer asks how you troubleshoot without knowing the exact issue. What do you say?**  
+    I’d ask for the error message, logs, and the exact failing step, then isolate the root cause.
+
+31. **A Jenkins pipeline uses Maven for Java app builds. What file defines dependencies?**  
+    `pom.xml`
+
+32. **A user wants alerts by email when CPU crosses threshold. What AWS services do you use?**  
+    CloudWatch and SNS.
+
+33. **A high-CPU alert triggers but the instance is still healthy. What is the likely issue?**  
+    The threshold may be too low or the spike may be temporary.
+
+34. **A containerized app needs faster deployment and fewer errors. What do you recommend?**  
+    CI/CD automation with Jenkins and Docker.
+
+35. **A team wants separate master and worker machines in Jenkins. Why?**  
+    To keep the controller light and run builds on agents.
+
+36. **A server is showing full disk usage due to logs. What can you do?**  
+    Compress, rotate, or safely remove old logs.
+
+37. **A job needs to be restricted to admins only. How do you manage it?**  
+    Configure permissions and role-based access in Jenkins.
+
+38. **A Dockerfile has many `RUN` commands and the image is large. How do you improve it?**  
+    Combine commands and use a multi-stage build.
+
+39. **A pod fails because of insufficient resources. What should you adjust?**  
+    CPU/memory requests and limits.
+
+40. **A rollout failed after a config change. What is your recovery step?**  
+    Roll back to the last known good version and check the config diff.
+
+41. **A developer asks why the pipeline took longer than usual. What could be the reasons?**  
+    Slow tests, large artifacts, dependency downloads, or agent resource limits.
+
+42. **An app in EC2 can’t reach the internet. What do you verify?**  
+    Route table, subnet, NAT gateway, and security rules.
+
+43. **A service is deployed but not scaling. What should you check?**  
+    HPA configuration, metrics, and resource availability.
+
+44. **A Kubernetes microservice needs stable access from another service. What should you use?**  
+    A Kubernetes Service.
+
+45. **A Linux process is consuming too much CPU. What is your immediate action?**  
+    Identify it using `top` or `ps` and investigate the cause.
+
+46. **A deployment fails due to credentials issue. What do you inspect?**  
+    Jenkins credentials, IAM permissions, and secret configuration.
+
+47. **A package installed in one environment but not another. What does this suggest?**  
+    Environment drift or missing dependency setup.
+
+48. **A candidate wants to sound strong in DevOps interviews. What should they emphasize?**  
+    Real troubleshooting, automation, ownership, and communication.
+
+49. **An interviewer asks about a real incident you solved. What should your answer include?**  
+    Problem, root cause, action taken, and final outcome.
+
+50. **A system needs zero downtime deployment. What approach helps?**  
+    Rolling updates, load balancer, health checks, and proper monitoring.
+
+
+**AWS scenarios**
+
+1. **EC2 cannot access S3**
+- Check IAM role attachment, required S3 permissions, and bucket policy.
+
+2. **CloudWatch alarm keeps firing**
+- Verify threshold, metric period, and whether the spike is real or temporary.
+
+3. **No email from SNS alert**
+- Check topic subscription, confirmation status, and alarm action configuration.
+
+4. **Instance is slow**
+- Inspect CPU, memory, disk usage, and application logs.
+
+5. **VPC peering not working**
+- Check route tables, peering status, and CIDR overlap.
+
+**Jenkins scenarios**
+
+1. **Pipeline fails after code push**
+- Review console output, stage logs, and recent commits.
+
+2. **Job runs on wrong node**
+- Check labels, node assignment, and executor availability.
+
+3. **Build succeeds locally but fails in Jenkins**
+- Verify dependencies, environment variables, and agent setup.
+
+4. **User can edit jobs accidentally**
+- Apply role-based access and restrict permissions.
+
+5. **Deployment stage hangs**
+- Check credentials, SCM access, and pipeline script errors.
+
+**Docker scenarios**
+
+1. **Container exits immediately**
+- Check `docker logs` and the startup command.
+
+2. **Image size is too large**
+- Use multi-stage builds and reduce unnecessary layers.
+
+3. **App works in image but not in container**
+- Verify ports, environment variables, and entrypoint.
+
+4. **Container cannot connect to another container**
+- Check Docker network and exposed ports.
+
+5. **Docker daemon not running**
+- Check the Docker service status and restart if needed.
+
+**Kubernetes scenarios**
+
+1. **Pod keeps restarting**
+- Inspect logs, events, and resource limits.
+
+2. **Microservices cannot communicate**
+- Verify Service, labels/selectors, ports, and network policy.
+
+3. **Service is running but not reachable externally**
+- Check Service type, Ingress, and load balancer configuration.
+
+4. **Deployment rollback needed**
+- Roll back to the previous stable version and check the change that caused failure.
+
+5. **High CPU in a pod**
+- Review resource requests/limits, application logs, and scaling settings.
