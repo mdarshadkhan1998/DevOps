@@ -1,0 +1,362 @@
+1. **What is Jenkins used for?**  
+   Jenkins is a CI/CD automation tool used to build, test, and deploy applications.
+
+2. **What is CI/CD?**  
+   CI/CD means Continuous Integration and Continuous Delivery/Deployment.
+
+3. **What is Docker?**  
+   Docker is a platform to package applications and dependencies into containers.
+
+4. **What is a Dockerfile?**  
+   A Dockerfile is a text file that contains instructions to build a Docker image.
+
+5. **What is a Docker image?**  
+   A Docker image is a read-only template used to create containers.
+
+6. **What is a Docker container?**  
+   A container is a running instance of a Docker image.
+
+7. **What is Kubernetes?**  
+   Kubernetes is an orchestration platform used to deploy and manage containers.
+
+8. **How do containers communicate in Kubernetes?**  
+   They communicate through Services, labels/selectors, and cluster networking.
+
+9. **What is the purpose of a Kubernetes Service?**  
+   It provides a stable endpoint to access pods.
+
+10. **What is a pod in Kubernetes?**  
+    A pod is the smallest deployable unit in Kubernetes and can run one or more containers.
+
+11. **What is AWS CloudWatch?**  
+    CloudWatch is AWS monitoring and observability service for logs, metrics, and alarms.
+
+12. **What is an AWS alarm?**  
+    An alarm monitors a metric and triggers an action when a threshold is crossed.
+
+13. **What is SNS in AWS?**  
+    SNS is Simple Notification Service used to send notifications to email, SMS, or applications.
+
+14. **Why is SQS usually not used for alarms?**  
+    SQS is for message queuing, not direct alert notification.
+
+15. **What are CloudWatch metrics?**  
+    Metrics are numerical data points collected over time, like CPU utilization.
+
+16. **What are CloudWatch alarms based on?**  
+    They are based on metric thresholds, time periods, and evaluation criteria.
+
+17. **What is EventBridge used for?**  
+    EventBridge routes events between AWS services and applications.
+
+18. **What is IAM in AWS?**  
+    IAM manages users, groups, roles, and permissions in AWS.
+
+19. **What is an IAM role?**  
+    A role is an AWS identity with permissions that can be assumed by a service or user.
+
+20. **Why might EC2 not access S3 even with a role attached?**  
+    The role may lack required permissions like s3:GetObject or the bucket policy may block access.
+
+21. **What are common S3 permissions?**  
+    Common permissions include s3:GetObject, s3:PutObject, s3:ListBucket, and s3:DeleteObject.
+
+22. **What is a bucket policy?**  
+    A bucket policy is a resource-based policy that controls access to an S3 bucket.
+
+23. **What is Linux used for in DevOps?**  
+    Linux is widely used to manage servers, automate tasks, and troubleshoot applications.
+
+24. **How do you check high CPU usage in Linux?**  
+    Use commands like top, htop, ps, and pidstat.
+
+25. **How do you check disk usage in Linux?**  
+    Use df -h for filesystem usage and du -sh for directory size.
+
+26. **How do you check if a service is running in Linux?**  
+    Use systemctl status <service-name>.
+
+27. **How do you start or stop a service in Linux?**  
+    Use systemctl start <service-name> or systemctl stop <service-name>.
+
+28. **What is a CI/CD pipeline in Jenkins?**  
+    It automates code build, test, and deployment stages.
+
+29. **What can cause Jenkins build failures?**  
+    Code errors, dependency issues, configuration problems, and permission issues.
+
+30. **What is SQL query indexing?**  
+    Indexing speeds up data retrieval by reducing full table scans.
+
+31. **What is the downside of too many indexes?**  
+    Writes and updates become slower, and storage usage increases.
+
+32. **Why should we avoid SELECT * in SQL?**  
+    It retrieves unnecessary columns and can slow performance.
+
+33. **What is a CloudWatch agent?**  
+    It collects OS-level metrics and logs from EC2 or on-prem machines.
+
+34. **What is the difference between manual and automated monitoring?**  
+    Manual monitoring requires human checking, while automated monitoring uses alarms and alerting tools.
+
+35. **How do you troubleshoot a slow EC2 instance?**  
+    Check CPU, memory, disk, logs, active processes, and application health.
+
+36. **What is a good response when you don’t know an answer in an interview?**  
+    Be honest, explain your approach to troubleshoot, and ask for the exact error message or logs.
+
+37. **What is the importance of communication in interviews?**  
+    Clear communication shows confidence, clarity, and teamwork ability.
+
+38. **Why should you ask about the company during an interview?**  
+    It shows interest, preparation, and ownership.
+
+39. **What is the benefit of consistency in interview preparation?**  
+    Consistency builds confidence, knowledge retention, and better performance.
+
+40. **What is a DevOps engineer expected to do?**  
+    Automate deployments, manage infrastructure, monitor systems, and support reliable releases.
+
+41. **What is the role of a cloud engineer?**  
+    A cloud engineer designs, manages, and troubleshoots cloud infrastructure and services.
+
+42. **What is the difference between an image and a container in Docker?**  
+    An image is the template; a container is the running instance.
+
+43. **What is multi-stage Docker build?**  
+    It uses multiple stages in one Dockerfile to create smaller and cleaner images.
+
+44. **Why is remote work common in DevOps roles?**  
+    Because many DevOps tasks can be done through cloud consoles, SSH, and automation tools.
+
+45. **How do you explain a deployment time reduction in an interview?**  
+    Say you automated manual steps using Jenkins CI/CD, which reduced errors and deployment time.
+
+46. **What is the first step in troubleshooting an access issue?**  
+    Check the exact error message, permissions, and logs before making assumptions.
+
+47. **What is a good way to describe your project ownership?**  
+    Say you were accountable for the task, monitored issues, and coordinated with the team.
+
+48. **Why is alert threshold tuning important?**  
+    It reduces false alarms and ensures only meaningful alerts are triggered.
+
+49. **What is the use of logs in DevOps troubleshooting?**  
+    Logs help identify failures, errors, and root causes in applications and infrastructure.
+
+50. **What should a strong DevOps interview answer sound like?**  
+    Clear, practical, action-based, and focused on troubleshooting, automation, and outcomes.
+
+
+**Software & DevOps Interview Questions with Short Answers**
+
+1. **What is Jenkins?**  
+   Jenkins is an automation tool used for CI/CD pipelines.
+
+2. **What is CI/CD?**  
+   CI/CD stands for Continuous Integration and Continuous Delivery/Deployment.
+
+3. **What is the main use of a CI/CD pipeline?**  
+   To automate build, test, and deployment steps.
+
+4. **What is Groovy in Jenkins?**  
+   Groovy is the scripting language used for Jenkins pipelines.
+
+5. **What is a scripted pipeline?**  
+   A pipeline written in Groovy with more control and flexibility.
+
+6. **What is a declarative pipeline?**  
+   A more structured and simplified Jenkins pipeline format.
+
+7. **What is the Jenkins master-agent model?**  
+   The master controls jobs, and agents execute the build tasks.
+
+8. **Why use Jenkins agents?**  
+   To distribute workloads and reduce load on the master.
+
+9. **What is SCM in Jenkins?**  
+   Source Code Management, like GitHub or GitLab, used to fetch code.
+
+10. **What is Git?**  
+    Git is a distributed version control system.
+
+11. **What is GitHub used for?**  
+    GitHub hosts Git repositories and supports collaboration.
+
+12. **What is a commit in Git?**  
+    A snapshot of code changes saved in the repository.
+
+13. **What is the purpose of `git push`?**  
+    It sends local commits to a remote repository.
+
+14. **What is Docker?**  
+    Docker is a container platform used to package and run applications.
+
+15. **What is a Docker image?**  
+    A read-only template used to create containers.
+
+16. **What is a Docker container?**  
+    A running instance of a Docker image.
+
+17. **What is a Dockerfile?**  
+    A file containing instructions to build a Docker image.
+
+18. **What does the `FROM` instruction do in Dockerfile?**  
+    It defines the base image.
+
+19. **What does the `COPY` instruction do in Dockerfile?**  
+    It copies files from the host to the image.
+
+20. **What does the `RUN` instruction do in Dockerfile?**  
+    It executes commands while building the image.
+
+21. **What is a multi-stage Docker build?**  
+    A build using multiple stages to create smaller images.
+
+22. **Why use multi-stage builds?**  
+    To reduce image size and remove unnecessary build dependencies.
+
+23. **How do you check Docker containers?**  
+    Use `docker ps` or `docker ps -a`.
+
+24. **How do you check Docker images?**  
+    Use `docker images`.
+
+25. **How do you view Docker logs?**  
+    Use `docker logs <container_id>`.
+
+26. **What is Kubernetes?**  
+    Kubernetes is a container orchestration platform.
+
+27. **What is a pod in Kubernetes?**  
+    The smallest deployable unit in Kubernetes.
+
+28. **What is a Kubernetes service?**  
+    A stable endpoint used to expose pods.
+
+29. **How do microservices communicate in Kubernetes?**  
+    Through Services, labels/selectors, and cluster networking.
+
+30. **What is a Deployment in Kubernetes?**  
+    It manages the desired state and replica sets of pods.
+
+31. **What is an Ingress in Kubernetes?**  
+    It routes external traffic to services inside the cluster.
+
+32. **What is AWS EC2?**  
+    A virtual server in the AWS cloud.
+
+33. **What is AWS S3?**  
+    Object storage used to store files and backups.
+
+34. **What is AWS IAM?**  
+    Identity and Access Management for users, roles, and permissions.
+
+35. **What is an IAM role?**  
+    An AWS identity with permissions that can be assumed by a service.
+
+36. **Why might EC2 fail to access S3 even after attaching a role?**  
+    Missing IAM permissions or an S3 bucket policy restriction.
+
+37. **What are common S3 permissions?**  
+    `s3:GetObject`, `s3:PutObject`, `s3:ListBucket`, `s3:DeleteObject`.
+
+38. **What is AWS CloudWatch?**  
+    A monitoring service for metrics, logs, and alarms.
+
+39. **What is a CloudWatch alarm?**  
+    A threshold-based alert triggered by metric conditions.
+
+40. **What is SNS in AWS?**  
+    Simple Notification Service used for sending notifications.
+
+41. **Why is SNS used with CloudWatch alarms?**  
+    To notify users when an alarm is triggered.
+
+42. **What is SQS?**  
+    A message queue service for decoupling applications.
+
+43. **Why is SQS usually not used for alerts?**  
+    Because alerts need direct notifications, not message queuing.
+
+44. **What is EventBridge?**  
+    A service that routes events between AWS services and applications.
+
+45. **What is Linux commonly used for in DevOps?**  
+    Server management, automation, deployment, and troubleshooting.
+
+46. **How do you check CPU usage in Linux?**  
+    Use `top`, `htop`, or `ps`.
+
+47. **How do you check disk usage in Linux?**  
+    Use `df -h`.
+
+48. **How do you check service status in Linux?**  
+    Use `systemctl status <service>`.
+
+49. **How do you start a Linux service?**  
+    Use `systemctl start <service>`.
+
+50. **How do you stop a Linux service?**  
+    Use `systemctl stop <service>`.
+
+51. **What is `ps` used for in Linux?**  
+    It shows running processes.
+
+52. **What is the purpose of `kill` in Linux?**  
+    It terminates a process.
+
+53. **What is SQL query optimization?**  
+    Improving query performance and reducing resource usage.
+
+54. **What is indexing in SQL?**  
+    A technique that speeds up data retrieval.
+
+55. **What is the downside of too many indexes?**  
+    Slower inserts, updates, and more storage usage.
+
+56. **Why should you avoid `SELECT *`?**  
+    It fetches unnecessary columns and can slow queries.
+
+57. **What is RDS in AWS?**  
+    A managed relational database service.
+
+58. **What is PostgreSQL?**  
+    An open-source relational database system.
+
+59. **What is MySQL?**  
+    A popular open-source relational database.
+
+60. **What is RTO?**  
+    Recovery Time Objective, the target time to restore a service after failure.
+
+61. **What is MTTR?**  
+    Mean Time To Resolve, the average time to fix an issue.
+
+62. **What is high availability?**  
+    Designing systems to stay available even if one component fails.
+
+63. **How is high availability achieved in AWS?**  
+    Using multi-AZ deployments, load balancers, and replication.
+
+64. **What is DR in cloud systems?**  
+    Disaster Recovery, the process to restore systems after a failure.
+
+65. **What is VPC peering?**  
+    A connection between two VPCs to route traffic privately.
+
+66. **What is SSH used for?**  
+    Secure remote access to servers.
+
+67. **What is an EC2 key pair used for?**  
+    It is used for secure SSH login to EC2 instances.
+
+68. **What should you do first when troubleshooting a production issue?**  
+    Check the error message, logs, metrics, and recent changes.
+
+69. **What is a good interview approach when you don’t know the exact answer?**  
+    Explain your troubleshooting steps clearly and ask for logs or context.
+
+70. **What makes a strong DevOps engineer candidate?**  
+    Automation skills, troubleshooting ability, cloud knowledge, and clear communication.
